@@ -25,12 +25,28 @@ class Category:
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.products = products if products else []
+        self.__products = products if products else []
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
+    @property
+    def products(self):
+        return self.__products
 
-if __name__ == "__main__": # pragma: no cover
+    def add_product(self, product):
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise TypeError("Можно добавлять только объекты класса Product")
+
+    @property
+    def product_list(self):
+        return [f'{product.name}, {int(product.price)} руб. Остаток: {product.quantity} шт.'
+        for product in self.__products]
+
+
+if __name__ == "__main__":  # pragma: no cover
     product1 = Product(
         "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
     )
@@ -78,3 +94,27 @@ if __name__ == "__main__": # pragma: no cover
 
     print(Category.category_count)
     print(Category.product_count)
+
+    cat = Category("Смартфоны", "Описание", [product1, product2])
+    for line in cat.product_list:
+        print(line)
+
+    p1 = Product("Iphone 15", "512GB, Gray", 210000.0, 5)
+    products = [p1]
+
+    new_data = {
+        "name": "Iphone 15",
+        "description": "512GB, Gray",
+        "price": 215000.0,
+        "quantity": 3
+    }
+
+    updated_product = Product.new_product(new_data, products)
+
+    # Добавим в список, если нового не было
+    if updated_product not in products:
+        products.append(updated_product)
+
+    # Вывод
+    for p in products:
+        print(f"{p.name}, {p.price} руб., Остаток: {p.quantity} шт.")
