@@ -9,9 +9,43 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, new_price):
+        if new_price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        elif new_price < self.__price:
+            answer = input("Цена снижается. Подтвердите понижение (y/n)").strip().lower()
+            if answer == "y":
+                self.__price = new_price
+                print("Цена снижена")
+            else:
+                print("Действие отменено. Цена осталась прежней")
+        else:
+            self.__price = new_price
+
+    @classmethod
+    def new_product(cls, data: dict, existing_products: list = None):
+        """Создаёт новый товар или обновляет существующий по имени"""
+        existing_products = existing_products or []
+
+        name = data.get("name")
+        description = data.get("description")
+        price = data.get("price")
+        quantity = data.get("quantity")
+
+        for product in existing_products:
+            if product.name == name:
+                product.quantity += quantity
+                product.price = max(product.price, price)
+                return product
+        return cls(name, description, price, quantity)
 
 class Category:
     """Класс для создания категорий"""
@@ -25,56 +59,111 @@ class Category:
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.products = products if products else []
+        self.__products = products if products else []
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
+    @property
+    def products(self):
+        return self.__products
 
-if __name__ == "__main__": # pragma: no cover
-    product1 = Product(
-        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
-    )
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    def add_product(self, product):
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise TypeError("Можно добавлять только объекты класса Product")
 
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
+    @property
+    def product_list(self):
+        return [f'{product.name}, {int(product.price)} руб. Остаток: {product.quantity} шт.'
+        for product in self.__products]
 
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
 
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
+if __name__ == "__main__":  # pragma: no cover
+    # product1 = Product(
+    #     "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
+    # )
+    # product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    # product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    #
+    # print(product1.name)
+    # print(product1.description)
+    # print(product1.price)
+    # print(product1.quantity)
+    #
+    # print(product2.name)
+    # print(product2.description)
+    # print(product2.price)
+    # print(product2.quantity)
+    #
+    # print(product3.name)
+    # print(product3.description)
+    # print(product3.price)
+    # print(product3.quantity)
+    #
+    # category1 = Category(
+    #     "Смартфоны",
+    #     "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+    #     [product1, product2, product3],
+    # )
+    #
+    # print(category1.name == "Смартфоны")
+    # print(category1.description)
+    # print(len(category1.products))
+    # print(category1.category_count)
+    # print(category1.product_count)
+    #
+    # product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
+    # category2 = Category(
+    #     "Телевизоры",
+    #     "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
+    #     [product4],
+    # )
+    #
+    # print(category2.name)
+    # print(category2.description)
+    # print(len(category2.products))
+    # print(category2.products)
+    #
+    # print(Category.category_count)
+    # print(Category.product_count)
+    #
+    # cat = Category("Смартфоны", "Описание", [product1, product2])
+    # for line in cat.product_list:
+    #     print(line)
+    #
+    # p1 = Product("Iphone 15", "512GB, Gray", 210000.0, 5)
+    # products = [p1]
+    #
+    # new_data = {
+    #     "name": "Iphone 15",
+    #     "description": "512GB, Gray",
+    #     "price": 215000.0,
+    #     "quantity": 3
+    # }
+    #
+    # updated_product = Product.new_product(new_data, products)
+    #
+    # # Добавим в список, если нового не было
+    # if updated_product not in products:
+    #     products.append(updated_product)
+    #
+    # # Вывод
+    # for p in products:
+    #     print(f"{p.name}, {p.price} руб., Остаток: {p.quantity} шт.")
 
-    category1 = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [product1, product2, product3],
-    )
+    product = Product("Телевизор", "4K QLED", 50000, 10)
 
-    print(category1.name == "Смартфоны")
-    print(category1.description)
-    print(len(category1.products))
-    print(category1.category_count)
-    print(category1.product_count)
+    print(f"Исходная цена: {product.price}")  # 50000
 
-    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
-    category2 = Category(
-        "Телевизоры",
-        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-        [product4],
-    )
+    print("\nПопытка установить цену -1000:")
+    product.price = -1000  # Ожидаем: сообщение об ошибке
 
-    print(category2.name)
-    print(category2.description)
-    print(len(category2.products))
-    print(category2.products)
+    print("\nПопытка снизить цену до 40000:")
+    product.price = 40000  # Ожидаем: вопрос "y/n"
 
-    print(Category.category_count)
-    print(Category.product_count)
+    print("\nПопытка повысить цену до 60000:")
+    product.price = 60000  # Ожидаем: цена меняется без подтверждения
+
+    print(f"\nТекущая цена: {product.price}")
