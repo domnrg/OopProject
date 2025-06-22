@@ -12,6 +12,22 @@ class Product:
         self.price = price
         self.quantity = quantity
 
+    @classmethod
+    def new_product(cls, data: dict, existing_products: list = None):
+        """Создаёт новый товар или обновляет существующий по имени"""
+        existing_products = existing_products or []
+
+        name = data.get("name")
+        description = data.get("description")
+        price = data.get("price")
+        quantity = data.get("quantity")
+
+        for product in existing_products:
+            if product.name == name:
+                product.quantity += quantity
+                product.price = max(product.price, price)
+                return product
+        return cls(name, description, price, quantity)
 
 class Category:
     """Класс для создания категорий"""
