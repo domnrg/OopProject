@@ -124,3 +124,11 @@ def test_product_price_invalid(first_product: Product, capsys: pytest.CaptureFix
     first_product.price = -500
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
+
+def test_product_str(first_product: Product):
+    expected = "Samsung Galaxy S23 Ultra, 180000 руб. Остаток: 5 шт."
+    assert str(first_product) == expected
+
+def test_category_str(first_category: Category):
+    expected = "Смартфоны, количество продуктов: 27 шт."
+    assert str(first_category) == expected
