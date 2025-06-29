@@ -99,7 +99,8 @@ def test_merge_products(first_product: Product) -> None:
 
     assert result is first_product  # обновился существующий товар
     assert result.price == 185000.0  # цена обновилась
-    assert result.quantity == 8      # количество увеличилось
+    assert result.quantity == 8  # количество увеличилось
+
 
 def test_product_price_getter_setter(first_product: Product) -> None:
     assert first_product.price == 180000.0
@@ -125,10 +126,17 @@ def test_product_price_invalid(first_product: Product, capsys: pytest.CaptureFix
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
 
+
 def test_product_str(first_product: Product):
     expected = "Samsung Galaxy S23 Ultra, 180000 руб. Остаток: 5 шт."
     assert str(first_product) == expected
 
+
 def test_category_str(first_category: Category):
     expected = "Смартфоны, количество продуктов: 27 шт."
     assert str(first_category) == expected
+
+
+def test_product_add(first_product: Product, second_product: Product) -> None:
+    expected_total = first_product.price * first_product.quantity + second_product.price * second_product.quantity
+    assert first_product + second_product == expected_total
