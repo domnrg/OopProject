@@ -10,6 +10,9 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
+
     @property
     def price(self) -> float:
         return self.__price
@@ -68,6 +71,10 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
+    def __str__(self):
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
+
     @property
     def products(self) -> list:
         return self.__products
@@ -81,9 +88,7 @@ class Category:
 
     @property
     def product_list(self) -> list:
-        return [
-            f"{product.name}, {int(product.price)} руб. Остаток: {product.quantity} шт." for product in self.__products
-        ]
+        return [f"{str(product)}" for product in self.__products]
 
 
 if __name__ == "__main__":  # pragma: no cover
@@ -166,3 +171,6 @@ if __name__ == "__main__":  # pragma: no cover
     product.price = 60000  # Ожидаем: цена меняется без подтверждения
 
     print(f"\nТекущая цена: {product.price}")
+
+    print(str(product1))
+    print(str(category1))
