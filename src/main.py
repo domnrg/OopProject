@@ -13,6 +13,11 @@ class Product:
     def __str__(self):
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
 
+    def __add__(self, other: "Product") -> float:
+        if isinstance(other, Product):
+            return self.__price * self.quantity + other.__price * other.quantity
+        return NotImplemented
+
     @property
     def price(self) -> float:
         return self.__price
@@ -174,3 +179,9 @@ if __name__ == "__main__":  # pragma: no cover
 
     print(str(product1))
     print(str(category1))
+
+    p1 = Product("Телевизор", "4K QLED", 100_000, 2)
+    p2 = Product("Ноутбук", "Intel Core i7", 80_000, 3)
+
+    total = p1 + p2  # 100_000 * 2 + 80_000 * 3 = 440_000
+    print(total)
