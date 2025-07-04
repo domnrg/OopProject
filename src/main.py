@@ -95,6 +95,46 @@ class Category:
     def product_list(self) -> list:
         return [f"{str(product)}" for product in self.__products]
 
+class Smartphone(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: str,
+        model: str,
+        memory: int,
+        color: str,
+    ) -> None:
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+    def __str__(self) -> str:
+        return f"{super().__str__()} ({self.model}, {self.memory} ГБ, {self.color}, {self.efficiency})"
+
+class LawnGrass(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: int,
+        color: str,
+    ) -> None:
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
+
+    def __str__(self) -> str:
+        return f"{super().__str__()} (страна: {self.country}, прорастает за {self.germination_period} дней, цвет: {self.color})"
+
 
 if __name__ == "__main__":  # pragma: no cover
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
@@ -185,3 +225,28 @@ if __name__ == "__main__":  # pragma: no cover
 
     total = p1 + p2  # 100_000 * 2 + 80_000 * 3 = 440_000
     print(total)
+
+    smartphone = Smartphone(
+        name="iPhone 15 Pro",
+        description="Флагман от Apple",
+        price=200_000.0,
+        quantity=10,
+        efficiency="высокая",
+        model="A310",
+        memory=512,
+        color="серый"
+    )
+
+    grass = LawnGrass(
+        name="Газон универсальный",
+        description="Для всех типов почвы",
+        price=1200.0,
+        quantity=25,
+        country="Нидерланды",
+        germination_period=14,
+        color="зеленый"
+    )
+
+    print(smartphone)
+    print(grass)
+
