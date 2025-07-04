@@ -54,7 +54,7 @@ def smartphone() -> Smartphone:
         efficiency="A16 Bionic",
         model="14 Pro",
         memory=256,
-        color="Graphite"
+        color="Graphite",
     )
 
 
@@ -67,5 +67,5 @@ def lawn_grass() -> LawnGrass:
         quantity=50,
         country="Нидерланды",
         germination_period=14,
-        color="Зелёный"
+        color="Зелёный",
     )

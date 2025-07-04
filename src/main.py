@@ -96,6 +96,7 @@ class Category:
     def product_list(self) -> list:
         return [f"{str(product)}" for product in self.__products]
 
+
 class Smartphone(Product):
     def __init__(
         self,
@@ -116,6 +117,7 @@ class Smartphone(Product):
 
     def __str__(self) -> str:
         return f"{super().__str__()} ({self.model}, {self.memory} ГБ, {self.color}, {self.efficiency})"
+
 
 class LawnGrass(Product):
     def __init__(
@@ -235,7 +237,7 @@ if __name__ == "__main__":  # pragma: no cover
         efficiency="высокая",
         model="A310",
         memory=512,
-        color="серый"
+        color="серый",
     )
 
     grass = LawnGrass(
@@ -245,7 +247,7 @@ if __name__ == "__main__":  # pragma: no cover
         quantity=25,
         country="Нидерланды",
         germination_period=14,
-        color="зеленый"
+        color="зеленый",
     )
 
     print(smartphone)
@@ -256,5 +258,4 @@ if __name__ == "__main__":  # pragma: no cover
     p3 = LawnGrass("Газон", "desc", 1000, 10, "Россия", 14, "зелёный")
 
     print(p1 + p2)  # OK
-    #print(p1 + p3)
-
+    # print(p1 + p3)
