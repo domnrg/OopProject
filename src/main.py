@@ -14,9 +14,11 @@ class Product:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: "Product") -> float:
-        if isinstance(other, Product):
-            return self.__price * self.quantity + other.__price * other.quantity
-        return NotImplemented
+        if not isinstance(other, Product):
+            return NotImplemented
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать товары разных типов.")
+        return self.price * self.quantity + other.price * other.quantity
 
     @property
     def price(self) -> float:
@@ -249,4 +251,11 @@ if __name__ == "__main__":  # pragma: no cover
 
     print(smartphone)
     print(grass)
+
+    p1 = Smartphone("iPhone", "desc", 100_000, 2, "Apple", "13 Pro", 256, "серый")
+    p2 = Smartphone("Samsung", "desc", 90_000, 1, "Samsung", "S21", 128, "чёрный")
+    p3 = LawnGrass("Газон", "desc", 1000, 10, "Россия", 14, "зелёный")
+
+    print(p1 + p2)  # OK
+    #print(p1 + p3)
 
