@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.main import Category, Product
+from src.main import Category, Product, Smartphone, LawnGrass
 
 
 def test_product_init(first_product: Product) -> None:
@@ -140,3 +140,35 @@ def test_category_str(first_category: Category):
 def test_product_add(first_product: Product, second_product: Product) -> None:
     expected_total = first_product.price * first_product.quantity + second_product.price * second_product.quantity
     assert first_product + second_product == expected_total
+
+def test_smartphone_attributes(smartphone: Product) -> None:
+    assert smartphone.name == "iPhone 14 Pro"
+    assert smartphone.efficiency == "A16 Bionic"
+    assert smartphone.model == "14 Pro"
+    assert smartphone.memory == 256
+    assert smartphone.color == "Graphite"
+
+def test_lawn_grass_attributes(lawn_grass: LawnGrass) -> None:
+    assert lawn_grass.name == "GreenField"
+    assert lawn_grass.country == "Нидерланды"
+    assert lawn_grass.germination_period == 14
+    assert lawn_grass.color == "Зелёный"
+
+def test_product_add_same_type() -> None:
+    p1 = Product("Телевизор", "desc", 50000, 2)
+    p2 = Product("Телевизор", "desc", 30000, 1)
+    total = p1 + p2
+    assert total == 50000 * 2 + 30000 * 1
+
+def test_product_add_different_type_raises() -> None:
+    phone = Smartphone("iPhone", "desc", 100000, 1, "Apple", "13 Pro", 256, "серый")
+    grass = LawnGrass("Газон", "desc", 2000, 5, "Россия", 14, "зелёный")
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных типов"):
+        _ = phone + grass
+
+def test_add_invalid_object_to_category(first_category: Category):
+    with pytest.raises(TypeError):
+        first_category.add_product("не товар")
+
+

@@ -45,7 +45,6 @@ class Product:
         description = str(data.get("description", ""))
         price = float(data.get("price", 0.0))
         quantity = int(data.get("quantity", 0))
-
         return cls(name, description, price, quantity)
 
     @staticmethod
@@ -91,7 +90,7 @@ class Category:
             self.__products.append(product)
             Category.product_count += 1
         else:
-            raise TypeError("Можно добавлять только объекты класса Product")
+            raise TypeError("Можно добавлять только объекты класса Product или его подклассов")
 
     @property
     def product_list(self) -> list:
