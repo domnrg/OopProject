@@ -1,7 +1,22 @@
 from typing import Optional, Dict, List
+from abc import ABC, abstractmethod
+
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+        pass
+
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+
+    @abstractmethod
+    def __add__(self, other: "BaseProduct") -> float:
+        pass
 
 
-class Product:
+class Product(BaseProduct):
     """Класс для создания продуктов"""
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
@@ -10,10 +25,10 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: BaseProduct) -> float:
         if not isinstance(other, Product):
             return NotImplemented
         if type(self) is not type(other):
@@ -77,7 +92,7 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
 
@@ -259,3 +274,5 @@ if __name__ == "__main__":  # pragma: no cover
 
     print(p1 + p2)  # OK
     # print(p1 + p3)
+
+    #base = BaseProduct("test", "test desc", 100.0, 1)
