@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.main import Category, Product, Smartphone, LawnGrass
+from src.main import BaseProduct, Category, Product, Smartphone, LawnGrass
 
 
 def test_product_init(first_product: Product) -> None:
@@ -175,3 +175,14 @@ def test_product_add_different_type_raises() -> None:
 def test_add_invalid_object_to_category(first_category: Category):
     with pytest.raises(TypeError):
         first_category.add_product("не товар")
+
+
+def test_product_is_instance_of_baseproduct(first_product: Product) -> None:
+    assert isinstance(first_product, BaseProduct)
+
+
+def test_cannot_instantiate_baseproduct() -> None:
+    with pytest.raises(TypeError):
+        _ = BaseProduct("Тест", "Описание", 100.0, 1)
+
+
