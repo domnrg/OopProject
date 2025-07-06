@@ -1,6 +1,6 @@
 import pytest
 
-from src.main import Category, Product
+from src.main import Category, Product, Smartphone, LawnGrass
 
 
 @pytest.fixture
@@ -42,3 +42,30 @@ def reset_category_counts() -> None:
     """Сброс глобальных счётчиков категорий и продуктов перед каждым тестом."""
     Category.category_count = 0
     Category.product_count = 0
+
+
+@pytest.fixture
+def smartphone() -> Smartphone:
+    return Smartphone(
+        name="iPhone 14 Pro",
+        description="256GB, Graphite",
+        price=150000.0,
+        quantity=10,
+        efficiency="A16 Bionic",
+        model="14 Pro",
+        memory=256,
+        color="Graphite",
+    )
+
+
+@pytest.fixture
+def lawn_grass() -> LawnGrass:
+    return LawnGrass(
+        name="GreenField",
+        description="Для декоративного газона",
+        price=2000.0,
+        quantity=50,
+        country="Нидерланды",
+        germination_period=14,
+        color="Зелёный",
+    )
