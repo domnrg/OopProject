@@ -185,4 +185,8 @@ def test_cannot_instantiate_baseproduct() -> None:
     with pytest.raises(TypeError):
         _ = BaseProduct("Тест", "Описание", 100.0, 1)
 
-
+def test_product_repr_and_mixin(capsys) -> None:
+    p = Product("Молоко", "1 литр", 89.9, 10)
+    captured = capsys.readouterr()
+    assert "Product('Молоко', '1 литр', 89.9, 10)" in captured.out
+    assert repr(p) == "Product('Молоко', '1 литр', 89.9, 10)"
