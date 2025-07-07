@@ -16,7 +16,20 @@ class BaseProduct(ABC):
         pass
 
 
-class Product(BaseProduct):
+class MixinRepr:
+    """Класс-миксин для печати информации о том, от какого класса и с какими параметрами был создан объект"""
+
+    def __init__(self, *args, **kwargs):
+        class_name = self.__class__.__name__
+        args_str = ", ".join(repr(arg) for arg in args)
+        print(f"{class_name}({args_str})")
+        super().__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.name}', '{self.description}', {self.price}, {self.quantity})"
+
+
+class Product(MixinRepr, BaseProduct):
     """Класс для создания продуктов"""
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
@@ -24,6 +37,7 @@ class Product(BaseProduct):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__(name, description, price, quantity)
 
     def __str__(self) -> str:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
@@ -276,3 +290,6 @@ if __name__ == "__main__":  # pragma: no cover
     # print(p1 + p3)
 
     #base = BaseProduct("test", "test desc", 100.0, 1)
+
+    p = Product("Молоко", "1 литр", 89.9, 10)
+    print(repr(p))
