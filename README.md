@@ -61,7 +61,20 @@
 Методы:
 - `add_product` — добавление продукта;
 - `@property product_list` — список товаров в читаемом виде.
-- 
+
+### Классы наследники `Smartphone` и `LawnGrass`
+
+- `Smartphone` — наследует Product, дополнительно содержит поля: efficiency, model, memory, color.
+- `LawnGrass` — наследует Product, дополнительно содержит поля: country, germination_period, color.
+
+### Класс `BaseProduct`
+
+Абстрактный базовый класс
+
+### Миксин `MixinRepr`
+
+Автоматически отображает информацию при создании объекта
+
 ## Структура проекта
 
 ```bash
