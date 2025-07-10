@@ -185,12 +185,26 @@ def test_cannot_instantiate_baseproduct() -> None:
     with pytest.raises(TypeError):
         _ = BaseProduct("Тест", "Описание", 100.0, 1)
 
+
 def test_product_repr_and_mixin(capsys) -> None:
     p = Product("Молоко", "1 литр", 89.9, 10)
     captured = capsys.readouterr()
     assert "Product('Молоко', '1 литр', 89.9, 10)" in captured.out
     assert repr(p) == "Product('Молоко', '1 литр', 89.9, 10)"
 
+
 def test_product_quantity_zero() -> None:
     with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
         _ = Product("Чайник", "Электрический", 2500.0, 0)
+
+
+def test_middle_price_with_products():
+    c = Category("Гаджеты", "Смартфоны и техника")
+    c.add_product(Product("A", "desc",100, 2))
+    c.add_product(Product("B", "desc",200, 2))
+    assert c.middle_price() == 75.0
+
+
+def test_middle_price_empty_category():
+    c = Category("Пустая", "Категория без товаров")
+    assert c.middle_price() == 0

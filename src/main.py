@@ -134,7 +134,7 @@ class Category:
         try:
             return total_price / total_quantity
         except ZeroDivisionError:
-            result = 0
+            return 0
 
 
 class Smartphone(Product):
