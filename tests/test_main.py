@@ -190,3 +190,7 @@ def test_product_repr_and_mixin(capsys) -> None:
     captured = capsys.readouterr()
     assert "Product('Молоко', '1 литр', 89.9, 10)" in captured.out
     assert repr(p) == "Product('Молоко', '1 литр', 89.9, 10)"
+
+def test_product_quantity_zero() -> None:
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        _ = Product("Чайник", "Электрический", 2500.0, 0)
