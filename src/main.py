@@ -40,7 +40,7 @@ class Product(MixinRepr, BaseProduct):
         super().__init__(name, description, price, quantity)
         if quantity == 0:
             raise ValueError("Товар с нулевым количеством не может быть добавлен")
-            
+
 
     def __str__(self) -> str:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
@@ -127,6 +127,14 @@ class Category:
     @property
     def product_list(self) -> list:
         return [f"{str(product)}" for product in self.__products]
+
+    def middle_price(self) -> float:
+        total_price = sum(product.price for product in self.__products)
+        total_quantity = sum(product.quantity for product in self.__products)
+        try:
+            return total_price / total_quantity
+        except ZeroDivisionError:
+            result = 0
 
 
 class Smartphone(Product):
