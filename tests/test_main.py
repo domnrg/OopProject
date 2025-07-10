@@ -200,9 +200,9 @@ def test_product_quantity_zero() -> None:
 
 def test_middle_price_with_products():
     c = Category("Гаджеты", "Смартфоны и техника")
-    c.add_product(Product("A", "desc",100, 2))
-    c.add_product(Product("B", "desc",200, 2))
-    assert c.middle_price() == 75.0
+    c.add_product(Product("A", "desc", 100, 2))
+    c.add_product(Product("B", "desc", 200, 2))
+    assert c.middle_price() == 150.0
 
 
 def test_middle_price_empty_category():
