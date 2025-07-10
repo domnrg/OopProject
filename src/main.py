@@ -38,6 +38,9 @@ class Product(MixinRepr, BaseProduct):
         self.__price = price
         self.quantity = quantity
         super().__init__(name, description, price, quantity)
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+            
 
     def __str__(self) -> str:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
