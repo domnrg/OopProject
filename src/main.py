@@ -1,6 +1,7 @@
 from typing import Optional, Dict, List
 from abc import ABC, abstractmethod
 
+
 class BaseProduct(ABC):
 
     @abstractmethod
@@ -38,6 +39,8 @@ class Product(MixinRepr, BaseProduct):
         self.__price = price
         self.quantity = quantity
         super().__init__(name, description, price, quantity)
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
     def __str__(self) -> str:
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
@@ -124,6 +127,13 @@ class Category:
     @property
     def product_list(self) -> list:
         return [f"{str(product)}" for product in self.__products]
+
+    def middle_price(self) -> float:
+        try:
+            total_price = sum(product.price for product in self.__products)
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
+            return 0
 
 
 class Smartphone(Product):
@@ -289,7 +299,7 @@ if __name__ == "__main__":  # pragma: no cover
     print(p1 + p2)  # OK
     # print(p1 + p3)
 
-    #base = BaseProduct("test", "test desc", 100.0, 1)
+    # base = BaseProduct("test", "test desc", 100.0, 1)
 
     p = Product("Молоко", "1 литр", 89.9, 10)
     print(repr(p))
